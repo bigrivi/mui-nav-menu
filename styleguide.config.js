@@ -46,6 +46,7 @@ module.exports = {
         }
         return props;
     },
+    styleguideDir: path.resolve(__dirname, "styleguide/public"),
     sections: [
         {
             name: "Introduction",

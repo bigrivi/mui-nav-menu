@@ -11,7 +11,9 @@
         "build:esm": "tsc",
         "build:cjs": "tsc --module commonjs --outDir lib/cjs",
         "styleguide": "styleguidist server",
-        "styleguide:build": "styleguidist build"
+        "styleguide:build": "styleguidist build",
+        "deploy": "gh-pages -d styleguide/public",
+        "docs": "npm run styleguide:build && npm run deploy"
     },
     "author": "bigrivi",
     "license": "MIT",

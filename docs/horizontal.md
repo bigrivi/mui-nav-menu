@@ -9,6 +9,7 @@ const { classes } = useStyles();
     <NavMenu
         items={mockItems}
         mode="horizontal"
+        trigger="click"
         rootClassName={classes.menu}
         inlineIndent={{
             base: 55,

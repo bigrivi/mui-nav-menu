@@ -49,10 +49,14 @@ export const getNodeIdPaths = (
     return paths;
 };
 
-export const ConditionalWrapper: FC<
-    PropsWithChildren<{
-        wrapper: (children: React.ReactNode) => React.ReactNode;
-        condition: boolean;
-    }>
-> = ({ condition, wrapper, children }) =>
-    condition ? wrapper(children) : children;
+export const ConditionalWrapper = ({
+    condition,
+    wrapper,
+    children,
+}: {
+    wrapper: (children: React.ReactNode) => React.ReactNode;
+    condition: boolean;
+    children: React.ReactNode;
+}): React.ReactElement => {
+    return (condition ? wrapper(children) : children) as React.ReactElement;
+};

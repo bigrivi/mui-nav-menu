@@ -10,6 +10,20 @@ const useStyles = makeStyles()((theme) => {
             borderRadius: 10,
             transition: "width 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)",
         },
+        horizontal: {
+            width: "100%",
+            overflow: "auto",
+            "& .NavMenuListItem-root": {
+                marginRight: 10,
+            },
+            "& .MuiListItemButton-root": {
+                flexShrink: 0,
+                flexGrow: 0,
+            },
+            "& .MuiDivider-root": {
+                marginRight: 10,
+            },
+        },
         collapsed: {
             width: 55,
         },
@@ -17,13 +31,19 @@ const useStyles = makeStyles()((theme) => {
             "& .MuiListItemButton-root": {
                 transition: "background 300ms linear",
                 color: "rgba(255,255,255,0.8)",
+                "&.isSubMenuActive": {
+                    background: "#165DAA",
+                    "& .MuiListItemIcon-root": {
+                        color: "#fff",
+                    },
+                },
 
                 "& .MuiListItemIcon-root": {
                     color: "#798EAD",
                     padding: 0,
                     marginRight: 15,
                     justifyContent: "center",
-                    minWidth: 0,
+                    minWidth: 24,
                     transition: "color 300ms linear",
                 },
                 "&:hover": {

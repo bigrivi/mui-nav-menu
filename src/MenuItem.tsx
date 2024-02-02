@@ -36,9 +36,10 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>((props, ref) => {
         defaultPopupRootIcon,
         defaultPopupSubIcon,
         prefixCls,
+        onInternalOpenChange,
     } = useMenuContext();
     const connectedIdPath: string[] = useConnectedPath(id);
-
+    const isInlineMode = mode == "inline";
     const subIsOpen = useMemo(() => {
         return openIds.includes(id);
     }, [openIds]);
@@ -61,8 +62,15 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>((props, ref) => {
         }
     );
 
+    const handleMouseEnter = (evt: React.MouseEvent<HTMLElement>) => {
+        onInternalOpenChange && onInternalOpenChange(id, true, connectedIdPath);
+    };
+
     return (
         <ListMenuItem
+            {...(!isInlineMode && {
+                onMouseEnter: handleMouseEnter,
+            })}
             id={id}
             mode={mode}
             isFocused={focusedNodeId == id}

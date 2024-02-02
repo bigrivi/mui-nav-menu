@@ -1,6 +1,7 @@
 import { ComponentType, HTMLAttributeAnchorTarget } from "react";
 
 export type MenuMode = "inline" | "vertical" | "horizontal";
+export type TriggerType = "hover" | "click";
 type RouteLink = string;
 type ExternalLink = {
     url: string;

@@ -37,6 +37,21 @@ const mockItems = [
                     },
                 ],
             },
+            {
+                id: "orders_sub3",
+                label: "Orders_sub3",
+                children: [
+                    {
+                        id: "orders_sub3_1",
+                        label: "Orders_sub3_1",
+                    },
+                    { type: "divider" },
+                    {
+                        id: "orders_sub3_2",
+                        label: "Orders_sub3_2",
+                    },
+                ],
+            },
         ],
     },
     { type: "divider" },

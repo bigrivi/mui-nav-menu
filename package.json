@@ -1,7 +1,7 @@
 {
     "name": "mui-nav-menu",
     "version": "1.0.0",
-    "description": "",
+    "description": "Navigation menu component based on material ui",
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/esm/index.d.ts",
@@ -20,8 +20,9 @@
     "keywords": [
         "react",
         "typescript",
-        "navmenu",
-        "mui nav menu"
+        "material ui",
+        "navigation menu",
+        "nav-menu"
     ],
     "dependencies": {
         "@emotion/react": "^11.11.3",
@@ -67,6 +68,7 @@
         "LICENSE",
         "README.md"
     ],
+    "homepage": "https://bigrivi.github.io/mui-nav-menu/",
     "repository": {
         "type": "git",
         "url": "https://github.com/bigrivi/mui-nav-menu"

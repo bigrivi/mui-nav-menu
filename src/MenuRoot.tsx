@@ -9,6 +9,9 @@ const useStyle = makeStyles()((theme) => ({
     horizontalMode: {
         display: "flex",
     },
+    root: {
+        outline: "none", //Remove the outline effect of the root element
+    },
 }));
 
 const MenuRoot = ({
@@ -47,7 +50,7 @@ const MenuRoot = ({
 
     return (
         <div
-            className={classNames(className)}
+            className={classNames(className, classes.root)}
             onKeyDown={handleKeyDown}
             onFocus={handleFocus}
             onBlur={handleBlur}

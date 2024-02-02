@@ -1,4 +1,10 @@
-import React, { forwardRef, memo, useEffect, useMemo } from "react";
+import React, {
+    MouseEventHandler,
+    forwardRef,
+    memo,
+    useEffect,
+    useMemo,
+} from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { InlineIndent, MenuItemType, MenuMode } from "./types";
@@ -27,6 +33,8 @@ type ListMenuItemProps = {
     expandIcon?: React.ReactNode;
     popupRootIcon?: React.ReactNode;
     popupSubIcon?: React.ReactNode;
+    onMouseEnter?: MouseEventHandler<HTMLElement>;
+    onMouseLeave?: MouseEventHandler<HTMLElement>;
 } & Omit<MenuItemType, "children">;
 
 const useStyle = makeStyles()((theme) => ({
@@ -108,6 +116,8 @@ const ListMenuItem = forwardRef<HTMLDivElement, ListMenuItemProps>(
             icon,
             className,
             isFocused,
+            onMouseEnter,
+            onMouseLeave,
             renderContent: renderContentProp,
             collapseIcon = <ExpandLess />,
             expandIcon = <ExpandMore />,
@@ -210,6 +220,8 @@ const ListMenuItem = forwardRef<HTMLDivElement, ListMenuItemProps>(
                 disableTouchRipple
                 tabIndex={-1}
                 disabled={disabled}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
                 className={classNames(className, classes.root, classes.noWrap, {
                     isRoot: nestedLevel == 1,
                     isNested: hasChildren,

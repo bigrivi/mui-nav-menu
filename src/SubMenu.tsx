@@ -6,6 +6,7 @@ import React, {
     useRef,
     PropsWithChildren,
 } from "react";
+import { alpha } from "@mui/material";
 import { unstable_batchedUpdates } from "react-dom";
 import classNames from "classnames";
 import { useTransitionState } from "./hooks/useTransitionState";
@@ -16,6 +17,7 @@ import ListMenuItem from "./ListMenuItem";
 import Arrow from "./Arrow";
 import { makeStyles } from "tss-react/mui";
 import {
+    ClickAwayListener,
     Collapse,
     List,
     Paper,
@@ -23,6 +25,7 @@ import {
     PopperPlacementType,
     useEventCallback,
 } from "@mui/material";
+import { ConditionalWrapper } from "./utils";
 const MOUSE_ENTER_DEALY = 200;
 const MOUSE_LEAVE_DEALY = 0;
 
@@ -90,6 +93,9 @@ const useStyle = makeStyles()((theme) => ({
             borderRadius: 10,
         },
     },
+    isSubMenuActive: {
+        background: alpha("#000000", 0.05),
+    },
 }));
 
 const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
@@ -114,6 +120,7 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
         defaultPopupSubIcon,
         placement: placementProp,
         prefixCls,
+        trigger,
     } = useMenuContext();
     const { classes } = useStyle();
     const { id, children, ...rest } = props;
@@ -125,6 +132,7 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
         return openIds.includes(id);
     }, [openIds]);
     const delayTimerRef = useRef<NodeJS.Timeout>();
+    const isSubMenuActive = subIsOpen && mode != "inline";
     const isSelected = useMemo(() => {
         if (checkSelectedFn) {
             return checkSelectedFn(props as MenuItemType);
@@ -170,13 +178,19 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
     }, [openIds, id]);
 
     const handleMouseEnter = (evt: React.MouseEvent<HTMLElement>) => {
-        if (children && !transitioning) {
+        if (isRoot && trigger == "click") {
+            return;
+        }
+        if (!transitioning) {
             //Disable opening in transition
             delaySetPopupVisible(true, MOUSE_ENTER_DEALY);
         }
     };
 
     const handleMouseLeave = (evt: React.MouseEvent<HTMLElement>) => {
+        if (trigger == "click") {
+            return;
+        }
         if (children) {
             delaySetPopupVisible(false, MOUSE_LEAVE_DEALY);
         }
@@ -201,12 +215,16 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
             } else {
                 if (mode == "inline") {
                     toggleInlineSubVisible();
+                } else if (trigger == "click" && isRoot) {
+                    setPopupVisible(!subIsOpen);
                 }
             }
             onItemClick && onItemClick(id, connectedIdPath, event);
         }
-    ) as unknown as () => void;
-
+    );
+    const handleClickAway = () => {
+        setPopupVisible(false);
+    };
     const placement: PopperPlacementType = useMemo(() => {
         if (placementProp && isRoot) {
             return placementProp;
@@ -249,7 +267,6 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
             {...(!isInlineMode && {
                 style: {
                     pointerEvents: rest.disabled ? "none" : undefined,
-                    border: "1px soloid #ff0000",
                 },
                 onMouseEnter: handleMouseEnter,
                 onMouseLeave: handleMouseLeave,
@@ -271,6 +288,10 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
                 collapseIcon={defaultCollapseIcon}
                 popupRootIcon={defaultPopupRootIcon}
                 popupSubIcon={defaultPopupSubIcon}
+                className={classNames({
+                    isSubMenuActive: isSubMenuActive,
+                    [classes.isSubMenuActive]: isSubMenuActive,
+                })}
                 {...rest}
             />
 
@@ -305,35 +326,46 @@ const SubMenu: FC<PropsWithChildren<SubMenuProps>> = (props) => {
                     modifiers={modifiers}
                 >
                     {({ TransitionProps }) => (
-                        <TransitionComponent
-                            {...transitionHandlers(TransitionProps)}
+                        <ConditionalWrapper
+                            condition={isRoot && trigger == "click"}
+                            wrapper={(child) => (
+                                <ClickAwayListener
+                                    onClickAway={handleClickAway}
+                                >
+                                    <div>{child}</div>
+                                </ClickAwayListener>
+                            )}
                         >
-                            <Paper
-                                elevation={elevation}
-                                className={classes.paper}
-                                style={{
-                                    pointerEvents: transitioning
-                                        ? "none"
-                                        : "auto",
-                                }}
+                            <TransitionComponent
+                                {...transitionHandlers(TransitionProps)}
                             >
-                                <div className="PopperContent">
-                                    <List component="div" disablePadding>
-                                        <PathContext.Provider
-                                            value={connectedIdPath}
-                                        >
-                                            {children}
-                                        </PathContext.Provider>
-                                    </List>
-                                </div>
-                                {isRoot && arrow && (
-                                    <Arrow
-                                        elevation={elevation}
-                                        ref={setArrowRef}
-                                    />
-                                )}
-                            </Paper>
-                        </TransitionComponent>
+                                <Paper
+                                    elevation={elevation}
+                                    className={classes.paper}
+                                    style={{
+                                        pointerEvents: transitioning
+                                            ? "none"
+                                            : "auto",
+                                    }}
+                                >
+                                    <div className="PopperContent">
+                                        <List component="div" disablePadding>
+                                            <PathContext.Provider
+                                                value={connectedIdPath}
+                                            >
+                                                {children}
+                                            </PathContext.Provider>
+                                        </List>
+                                    </div>
+                                    {isRoot && arrow && (
+                                        <Arrow
+                                            elevation={elevation}
+                                            ref={setArrowRef}
+                                        />
+                                    )}
+                                </Paper>
+                            </TransitionComponent>
+                        </ConditionalWrapper>
                     )}
                 </Popper>
             )}

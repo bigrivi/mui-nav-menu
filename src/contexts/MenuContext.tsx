@@ -5,6 +5,7 @@ import {
     InlineIndent,
     ItemViewData,
     MenuLink,
+    TriggerType,
 } from "../types";
 import { PopperPlacementType } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
@@ -15,6 +16,7 @@ export interface IMenuContext {
     placement?: PopperPlacementType;
     elevation?: number;
     arrow?: boolean;
+    trigger: TriggerType;
     mode?: MenuMode;
     prefixCls?: string;
     defaultCollapseIcon?: React.ReactNode;

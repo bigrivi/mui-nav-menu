@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC, PropsWithChildren } from "react";
 import { ItemType, ItemViewData } from "./types";
 import MenuItem from "./MenuItem";
 import SubMenu from "./SubMenu";
 import MenuItemGroup from "./MenuItemGroup";
-import { Divider } from "@mui/material";
+import Divider from "./Divider";
 
 export const parseItemsToNodes = (childrens: Array<ItemType>) => {
     return childrens && childrens.length > 0
@@ -48,3 +48,11 @@ export const getNodeIdPaths = (
     }
     return paths;
 };
+
+export const ConditionalWrapper: FC<
+    PropsWithChildren<{
+        wrapper: (children: React.ReactNode) => React.ReactNode;
+        condition: boolean;
+    }>
+> = ({ condition, wrapper, children }) =>
+    condition ? wrapper(children) : children;

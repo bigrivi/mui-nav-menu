@@ -97,6 +97,18 @@ module.exports = {
                     exampleMode: "expand",
                     usageMode: "expand",
                 },
+                {
+                    name: "JSX support",
+                    content: "docs/jsx.md",
+                    exampleMode: "expand",
+                    usageMode: "expand",
+                },
+                {
+                    name: "Custom menu item",
+                    content: "docs/customContent.md",
+                    exampleMode: "expand",
+                    usageMode: "expand",
+                },
             ],
         },
     ],

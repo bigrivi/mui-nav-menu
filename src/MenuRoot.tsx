@@ -1,4 +1,4 @@
-import React, { FocusEvent, ReactNode } from "react";
+import React, { FocusEvent, ReactNode, useRef } from "react";
 import classNames from "classnames";
 import { useMenuContext } from "./contexts/MenuContext";
 import useKeyboardNavigation from "./hooks/useKeyboardNavigation";
@@ -31,12 +31,12 @@ const MenuRoot = ({
         prefixCls,
     } = useMenuContext();
     const { handleKeyDown } = useKeyboardNavigation();
+    const pressedRef = useRef(false);
     const { classes } = useStyle();
 
     const handleFocus = (event: FocusEvent) => {
         if (!focusedNodeId) {
-            console.log(event);
-            if (event.target === event.currentTarget) {
+            if (event.target === event.currentTarget && !pressedRef.current) {
                 const rooNodeIds = getChildrenIds(null);
                 if (rooNodeIds && rooNodeIds.length > 0) {
                     setFocusedNodeId(rooNodeIds[0]);
@@ -49,10 +49,20 @@ const MenuRoot = ({
         setFocusedNodeId(null);
     };
 
+    const handleMouseDown = () => {
+        pressedRef.current = true;
+    };
+
+    const handleMouseUp = () => {
+        pressedRef.current = false;
+    };
+
     return (
         <div
             className={classNames(className, classes.root)}
             onKeyDown={handleKeyDown}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
             onFocus={handleFocus}
             onBlur={handleBlur}
             tabIndex={0}

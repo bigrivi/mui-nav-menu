@@ -67,6 +67,12 @@ const useStyles = makeStyles()((theme) => {
                 margin: "10px 0px",
                 backgroundColor: "#798EAD",
             },
+            "& .MuiListSubheader-root": {
+                background: "none",
+                color: "#d0d0d0",
+                fontWeight: "bold",
+                pointerEvents: "none",
+            },
         },
     };
 });

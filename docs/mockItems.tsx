@@ -8,7 +8,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
-const mockItems = [
+const mockItems: ItemType[] = [
     {
         label: "Dashboard",
         id: "dashboard",

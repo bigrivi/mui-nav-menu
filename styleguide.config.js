@@ -109,6 +109,12 @@ module.exports = {
                     exampleMode: "expand",
                     usageMode: "expand",
                 },
+                {
+                    name: "Menu item group",
+                    content: "docs/group.md",
+                    exampleMode: "expand",
+                    usageMode: "expand",
+                },
             ],
         },
     ],

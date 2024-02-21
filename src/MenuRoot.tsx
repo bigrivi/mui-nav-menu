@@ -35,6 +35,7 @@ const MenuRoot = ({
 
     const handleFocus = (event: FocusEvent) => {
         if (!focusedNodeId) {
+            console.log(event);
             if (event.target === event.currentTarget) {
                 const rooNodeIds = getChildrenIds(null);
                 if (rooNodeIds && rooNodeIds.length > 0) {
